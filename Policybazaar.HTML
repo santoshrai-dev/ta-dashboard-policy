@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>TA Dashboard</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: #f4f7fb;
+}
+
+/* Layout */
+.dashboard {
+    display: flex;
+    height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 240px;
+    background: linear-gradient(180deg, #0f4c81, #2a7de1);
+    color: white;
+    padding: 20px 15px;
+}
+
+.sidebar h2 {
+    font-size: 18px;
+    margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.section {
+    font-size: 11px;
+    text-transform: uppercase;
+    opacity: 0.7;
+    margin: 18px 10px 8px;
+}
+
+.sidebar a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: white;
+    text-decoration: none;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 6px;
+    transition: 0.2s;
+}
+
+.sidebar a:hover {
+    background: rgba(255,255,255,0.15);
+}
+
+.sidebar a.active {
+    background: white;
+    color: #0f4c81;
+    font-weight: 600;
+}
+
+/* Dropdown menu */
+.menu-title {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.menu-title:hover {
+    background: rgba(255,255,255,0.15);
+}
+
+.submenu {
+    max-height: 0;
+    overflow: hidden;
+    transition: 0.3s;
+}
+
+.submenu a {
+    padding: 8px 30px;
+    display: block;
+    color: white;
+}
+
+.menu-item.active .submenu {
+    max-height: 120px;
+}
+
+.arrow {
+    transition: 0.3s;
+}
+
+.menu-item.active .arrow {
+    transform: rotate(45deg);
+}
+
+/* Main */
+.main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header */
+.header {
+    background: linear-gradient(135deg, #0f4c81, #2a7de1);
+    color: white;
+    padding: 18px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-left {
+    display: flex;
+    flex-direction: column;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 22px;
+}
+
+.user {
+    font-size: 13px;
+    opacity: 0.9;
+}
+
+/* Content */
+.content {
+    padding: 25px;
+}
+
+/* SEARCH */
+.search-box {
+    margin-bottom: 20px;
+}
+
+.search-box input {
+    width: 260px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    font-size: 13px;
+    outline: none;
+}
+
+.search-box input:focus {
+    border-color: #2a7de1;
+}
+
+/* Grid */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+/* Cards */
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.05);
+    transition: 0.2s;
+    cursor: pointer;
+}
+
+.card:hover {
+    transform: translateY(-3px);
+}
+
+/* FIXED MISSING STYLES */
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-left {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.bu-logo {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+}
+
+.card-title {
+    font-weight: 600;
+}
+
+.card-sub {
+    font-size: 13px;
+    color: #777;
+}
+
+.kpi {
+    margin-top: 6px;
+    display: flex;
+    gap: 8px;
+}
+
+.badge {
+    font-size: 11px;
+    padding: 4px 8px;
+    border-radius: 20px;
+    font-weight: 600;
+}
+
+.badge-live {
+    background: #e6f4ea;
+    color: #1e7e34;
+}
+
+.badge-pipeline {
+    background: #fff3e0;
+    color: #e65100;
+}
+
+.dropdown {
+    max-height: 0;
+    overflow: hidden;
+    transition: 0.3s;
+}
+
+.dropdown a {
+    display: block;
+    padding: 10px;
+    margin-top: 8px;
+    border-radius: 8px;
+    background: #f5f8ff;
+    text-decoration: none;
+    color: #333;
+}
+
+.card.active .dropdown {
+    max-height: 130px;
+}
+
+/* Home Button */
+.home-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: white;
+    color: #0f4c81;
+    padding: 6px 12px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+.home-btn:hover {
+    background: #e6f0ff;
+}
+</style>
+</head>
+
+<body>
+
+<div class="dashboard">
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h2>
+            <img src="https://raw.githubusercontent.com/santoshrai-dev/Scanner/main/logo.jpg" width="28">
+            TA Dashboard
+        </h2>
+
+        <div class="section">Business Units</div>
+        <a href="file:///C:/Users/santoshrai/Desktop/Policybazaar.HTML"><span>🏢</span> Policybazaar</a>
+        <a href="file:///C:/Users/santoshrai/Desktop/Paisabazaar.HTML"><span>💼</span> Paisabazaar</a>
+
+            </div>
+
+    <!-- Main -->
+    <div class="main">
+
+        <div class="header">
+            <div class="header-left">
+                <h1>Talent Acquisition Hub</h1>
+                <div class="user">Let’s get started 👋</div>
+            </div>
+
+            <!-- HOME BUTTON -->
+            <a href="file:///C:/Users/santoshrai/Desktop/Test.html" class="home-btn">🏠 Home</a>
+        </div>
+
+        <div class="content">
+
+            <!-- SEARCH -->
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Search anything...">
+            </div>
+
+            <div class="grid">
+
+                <!-- Agent GGN -->
+                <div class="card" onclick="toggleCard(this)">
+                    <div class="card-header">
+                        <div class="card-left">
+                            <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" class="bu-logo">
+                            <div>
+                                <div class="card-title">Agent GGN</div>
+                                <div class="card-sub">Sourcing & In-house</div>
+                                <div class="kpi">
+                                    <span class="badge badge-live">Live: 42</span>
+                                    <span class="badge badge-pipeline">Pipeline: 128</span>
+                                </div>
+                            </div>
+                        </div>
+                        <span>+</span>
+                    </div>
+                    <div class="dropdown">
+			<a href="#">Sourcing Tracker</a>
+                        <a href="https://docs.google.com/spreadsheets/d/1MhTl-vSQzAFOn9ouGLvrcglNqvebD9d2IracTupWE_w/edit?usp=sharing">In-house Tracker</a>
+                    </div>
+                </div>
+
+                <!-- Agent Regional -->
+                <div class="card" onclick="toggleCard(this)">
+                    <div class="card-header">
+                        <div class="card-left">
+                            <img src="https://cdn-icons-png.flaticon.com/512/854/854878.png" class="bu-logo">
+                            <div>
+                                <div class="card-title">Agent Regional</div>
+                                <div class="card-sub">Sourcing & In-house</div>
+                                <div class="kpi">
+                                    <span class="badge badge-live">Live: 35</span>
+                                    <span class="badge badge-pipeline">Pipeline: 96</span>
+                                </div>
+                            </div>
+                        </div>
+                        <span>+</span>
+                    </div>
+                    <div class="dropdown">
+                        <a href="#">Sourcing Tracker</a>
+                        <a href="https://docs.google.com/spreadsheets/d/1cgWuIWQxigmY9WJZJMC5JO6VDns0_dMXQZZyJc2R7B8/edit?usp=sharing">In-house Tracker</a>
+                    </div>
+                </div>
+<!-- DSF -->
+                <div class="card" onclick="toggleCard(this)">
+                    <div class="card-header">
+                        <div class="card-left">
+                            <img src="https://cdn-icons-png.flaticon.com/512/2921/2921222.png" class="bu-logo">
+                            <div>
+                                <div class="card-title">DSF</div>
+                                <div class="card-sub">Sourcing & In-house</div>
+                                <div class="kpi">
+                                    <span class="badge badge-live">Live: 18</span>
+                                    <span class="badge badge-pipeline">Pipeline: 52</span>
+                                </div>
+                            </div>
+                        </div>
+                        <span class="arrow">+</span>
+                    </div>
+                    <div class="dropdown">
+                        <a href="Paisabazaar.html">Sourcing Tracker</a>
+                        <a href="https://docs.google.com/spreadsheets/d/1DDF3miMsIYCtlYrtXCAK_3gmpyac9yj_e6vEtvQ7UUM/edit?resourcekey=&gid=1842294767#gid=1842294767">In-house Tracker</a>
+                    </div>
+                </div>
+
+                <!-- Leadership -->
+                <div class="card" onclick="toggleCard(this)">
+                    <div class="card-header">
+                        <div class="card-left">
+                            <img src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png" class="bu-logo">
+                            <div>
+                                <div class="card-title">Leadership</div>
+                                <div class="card-sub">Sourcing & In-house</div>
+                                <div class="kpi">
+                                    <span class="badge badge-live">Live: 6</span>
+                                    <span class="badge badge-pipeline">Pipeline: 22</span>
+                                </div>
+                            </div>
+                        </div>
+                        <span class="arrow">+</span>
+                    </div>
+                    <div class="dropdown">
+                        <a href="Paisabazaar.html">Sourcing Tracker</a>
+                        <a href="https://docs.google.com/spreadsheets/d/177fkRHpM818DNhoxQIJ-4WXlie3d6-7_MPnjqKvIwtw/edit?resourcekey=&gid=1782863531#gid=1782863531">In-house Tracker</a>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+                <!-- Remaining cards unchanged -->
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+function toggleMenu(menu) {
+    menu.classList.toggle("active");
+}
+
+function toggleCard(card) {
+    document.querySelectorAll(".card").forEach(c => {
+        if (c !== card) c.classList.remove("active");
+    });
+    card.classList.toggle("active");
+}
+
+document.getElementById("searchInput").addEventListener("keyup", function() {
+    let val = this.value.toLowerCase();
+    document.querySelectorAll(".card").forEach(card => {
+        card.style.display = card.innerText.toLowerCase().includes(val) ? "" : "none";
+    });
+});
+</script>
+
+</body>
+</html>
